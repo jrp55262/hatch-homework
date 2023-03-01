@@ -12,14 +12,26 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
+/**
+ * This is the top-level manager for the device display
+ *
+ * @param parentView The parent View for the RecyclerView
+ * @param connectivityClient The ConnectivityClient from which to retrieve data
+ *
+ */
 class DeviceDisplayManager(
-    private val context: Context,
     private val parentView: View,
     private val connectivityClient: ConnectivityClient) {
 
+    /**
+     * Starts the device display.
+     *  - Creates the RecyclerView to hold and manage the Views for the device entries
+     *  - Periodically queries the connectivityClient for new data and updates the
+     *    RecyclerView accordingly.
+     */
     fun start() {
         val devicesView: RecyclerView = parentView.findViewById(R.id.device_recycler_view)
-        devicesView.setLayoutManager(LinearLayoutManager(context))
+        devicesView.setLayoutManager(LinearLayoutManager(parentView.context))
         val deviceAdapter = DeviceAdapter()
         devicesView.adapter = deviceAdapter
 
@@ -41,6 +53,6 @@ class DeviceDisplayManager(
 
     companion object {
         private const val UPDATE_FREQUENCY_SECONDS = 10L
-        private val TAG = "HatchHomework"
+        private val TAG = "HatchHomework.DeviceDisplayManager"
     }
 }

@@ -10,6 +10,13 @@ import android.widget.Toast
 import androidx.core.view.GestureDetectorCompat
 import co.hatch.deviceClientLib.model.Device
 
+/**
+ * This is a LinearLayout that also handles the touch events
+ * using a GestureDetector
+ *
+ * TODO - It turns out that this does not play well with scrolling
+ * the RecyclerView; should use RecyclerView.OnItemTouchListener instead.
+ */
 class DeviceEntryView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -26,10 +33,23 @@ class DeviceEntryView @JvmOverloads constructor(
         }
     }
 
+    /**
+     * When an item is tapped, create a toast with the device name
+     * and connection state.
+     *
+     * TODO - Turn this into a dialog with the complete device state
+     */
     override fun onDown(event: MotionEvent): Boolean {
         Log.d(TAG, "onDown ${event.action}")
-        return false
-
+        return device?.let { device ->
+            val toast = Toast.makeText(
+                this.context,
+                "Device ${device.name} connected: ${device.connected}",
+                Toast.LENGTH_LONG
+            )
+            toast.show()
+            true
+        } ?: false
     }
 
     override fun onShowPress(event: MotionEvent) {
@@ -48,14 +68,7 @@ class DeviceEntryView @JvmOverloads constructor(
 
     override fun onLongPress(event: MotionEvent) {
         Log.d(TAG, "onLongPress ${event.action}")
-        device?.also { device ->
-            val toast = Toast.makeText(
-                this.context,
-                "Device ${device.name} connected: ${device.connected}",
-                Toast.LENGTH_LONG
-            )
-            toast.show()
-        }
+
     }
 
     override fun onFling(event0: MotionEvent, event1: MotionEvent, p2: Float, p3: Float): Boolean {
