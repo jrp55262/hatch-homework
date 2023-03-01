@@ -1,5 +1,19 @@
 # Hatch Android Homework Project
 
+## My Solution
+Hi Hatch,
+
+This is the solution that I have to this assignment so far after having spent a couple of hours on it.  Some notes:
+
+- This problem was pretty much crying out to be solved using a RecyclerView, and that's what I used.
+- Right now it re-polls every 10 seconds and updates the view.  I would have liked to have added a latency spinner overlay for those times when the update is delayed, as well as error handling if it fails, but I didn't get that far.
+- The RecyclerView uses notifyDataSetChanged() for the update, which I understand is a big hammer and rather expensive.  If I were doing this in production I would have used DiffUtils to make the update efficient.
+- The touch handler uses a toast for displaying information about the selected Device because that was quick to implement.  If I had gotten the touch handler working properly I would have replaced this with a Dialog overlay.
+- The touch handler for a given Device view responds when you touch it, but it also responds when you scroll the RecyclerView.  I then realized that I really should have used a RecyclerView.OnItemTouchListener instead.
+- There's a bunch of hard-coded stuff (strings, dimensions) that I should haul out into resources.
+
+I put in TODO comments in the code for the items that I feel should be updated or revisited.
+
 Hi Candidate,
 
 We're excited to move to the next step of the process with you. This exercise helps us understand how you would build a simple Android application that will consume a piece of legacy code that we are providing to you in a base Android Studio project. At a high level, you will constantly discover and list a set of devices available to you by our library on the screen, ordering at the top the ones with the stronger signal strength. Additionally, tapping on any of the listed devices should start a detail screen where more library operations can be performed in order to display all device information on the screen. If you have time as nice to have, allow the user to rename the device from this screen. There are specific detailed instructions below. Please read everything thoroughly before you start. We ask that you don't spend more than 4 hours on this exercise, as we'd like to see what you can complete in the timeframe. If you have any questions or are unsure about something and need clarification, feel free to reach out - it’s OK to ask!
